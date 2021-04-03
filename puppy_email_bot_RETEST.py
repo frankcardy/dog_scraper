@@ -18,10 +18,10 @@ soup = BeautifulSoup(source, 'lxml')
 images = soup.find_all('div', class_= 'list-animal-photo-block')
 postings = soup.find_all('td', class_='list-item')  #list-animal-info-block
 
+print(postings)
 
 def extract_dogs():
-    records = []
-    elements = []
+
     for item in postings:
         try:
             atag = item.div.a
@@ -41,38 +41,17 @@ def extract_dogs():
         result = (url, name, id, breed, fixed_age_2, gender)
         #print(result)
 
-        def send_mail():
-
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.ehlo()
-            server.starttls()
-            server.ehlo()
-
-            server.login('cardyf123@gmail.com', 'password')
-
-            subject = 'Here are some doges you may be interested in:'
-            body = f'Check out the following links\n{records}'
-
-            msg = f'Subject: {subject}\n\n{body}'
-
-            server.sendmail(
-                'franksdogs@gmail.com',
-                'cardyf123@gmail.com',
-                msg
-            )
-
-            print('Email has been sent')
-
-            server.quit()
 
 
-
+        records = []
+        elements = []
         if fixed_age_2 < 3 and 'Australian Shepherd' in breed and gender == 'Male':
             records.append(result)
         elif len(result) > 5:
             send_mail()
-
-        print(records)
+        else:
+            pass
+        #print(records)
 '''
 
         for record in records:
@@ -80,6 +59,30 @@ def extract_dogs():
         print(elements)
 '''
 
+def send_mail():
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+
+    server.login('cardyf123@gmail.com', 'lsqohtmzdmrobwai')
+
+    subject = 'Here are some doges you may be interested in:'
+    body = f'Check out the following links\n{records}'
+
+    msg = f'Subject: {subject}\n\n{body}'
+
+    server.sendmail(
+        'franksdogs@gmail.com',
+        'cardyf123@gmail.com',
+        msg
+    )
+
+    print('Email has been sent')
+
+    server.quit()
 
 
-extract_dogs()
+
+#extract_dogs()
